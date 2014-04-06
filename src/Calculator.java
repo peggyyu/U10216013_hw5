@@ -108,9 +108,9 @@ public class Calculator extends JFrame{
 	double number2 = 0;
 	int lastsign = 0;
 	
-	/**Handle the Compute Payment button*/
+	/**Handle the Compute buttons*/
 	private class ButtonListener implements ActionListener{
-		@Override
+		@Override/**Implement actionPerformed*/
 		public void actionPerformed(ActionEvent e){
 			//Get values from buttons
 			if(e.getSource() == jbtOne){
@@ -272,9 +272,10 @@ public class Calculator extends JFrame{
 			}
 		}
 	}
-	
+	/**The method of calculating numbers*/
 	public double operation(int sign, double number1, double number2){
 		double result = 0;
+		
 		switch(sign){
 		case 0 : result = number1; break;
 		case 1 : result = number1 + number2; break;
@@ -282,6 +283,7 @@ public class Calculator extends JFrame{
 		case 3 : result = number1 * number2; break;
 		case 4 : result = number2 / number1; break;
 		}
+		
 		if(result == -0)
 		result = 0;
 		CanPoint = true;
@@ -290,11 +292,57 @@ public class Calculator extends JFrame{
 	
 	/**Main method*/
 	public static void main(String[] args){
-		Calculator frame = new Calculator();
-		frame.setSize(250, 300);
-		frame.setTitle("CALCULATOR");
+		Password frame = new Password();
+		frame.setSize(180, 200);
+		frame.setTitle("Security ID");
 		frame.setLocationRelativeTo(null); // Center the frame
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    frame.setVisible(true);
+	}
+}
+//Create the password class
+class Password extends JFrame{
+	Calculator frame = new Calculator();
+	
+	//Create text field and button
+	private JTextField jtfPassword = new JTextField();
+	private JTextField jtfWrong = new JTextField();
+	private JButton jbtOk = new JButton("OK");
+	
+	public Password(){
+		// Panel p1 to hold label, text fields and button
+		JPanel p1 = new JPanel(new GridLayout(4, 1));
+		p1.add(new JLabel("Enter the password:"));
+		p1.add(jtfPassword);
+		p1.add(jtfWrong);
+		jtfWrong.setEditable(false);
+		p1.add(jbtOk);
+		
+		// Add the panel to the frame
+		add(p1, BorderLayout.CENTER);
+		
+		 // Register listener
+	    jbtOk.addActionListener(new ButtonListener());
+	}
+	
+	String password = "0000";
+	
+	/** Handle the OK button */
+	private class ButtonListener implements ActionListener{
+		@Override/**Implement actionPerformed*/
+		public void actionPerformed(ActionEvent e){
+			//The action after you type the password
+			if(jtfPassword.getText().equals(password)){
+				setVisible(false);
+				frame.setSize(250, 300);
+				frame.setTitle("CALCULATOR");
+				frame.setLocationRelativeTo(null); // Center the frame
+				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			    frame.setVisible(true);
+			}
+			//Type wrong password
+			else
+				jtfWrong.setText("Please enter again!");
+		}
 	}
 }
